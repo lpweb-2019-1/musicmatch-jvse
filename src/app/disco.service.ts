@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isNumber, isString, isObject } from 'util';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Injectable({
   providedIn: 'root'
@@ -129,7 +130,9 @@ export class DiscoService {
       id: this.musicas.length + 1,
       titulo,
       idGenero: g.id,
-      artistas: listaArtistas
+      artistas: listaArtistas,
+      gostar: 0,
+      naoGostar: 0,
     };
     this.musicas.push(musica);
     return musica;
@@ -243,4 +246,105 @@ export class DiscoService {
     }
     return this.artistas;
   }
+
+  gostarMusica(musica){
+    if (musica.gostar == 0){
+      for (let m of this.musicas){
+        if (musica.id === m.id) {
+          m.gostar += 1;
+          m.naoGostar = 0;
+        }
+      }
+    }
+    else {
+      musica.gostar == 1;
+    }
+  }
+
+  naoGostarMusica(musica){
+    if (musica.naoGostar == 0){
+      for (let m of this.musicas){
+        if (musica.id === m.id) {
+          m.naoGostar += 1;
+          m.gostar = 0;
+        }
+      }
+    }
+    else {
+      musica.naoGostar = 1;
+    }
+    
+  }
+
+  listaDeMusicasDoGenero(genero) {
+    let a = genero;
+    if (isNumber(a) || isString(a)) {
+      a = this.encontrarGenero(genero);
+    }
+    let lista = this.musicas.filter(musica =>
+      musica.genero.indexOf(a.id) != -1 || musica.genero.indexOf(a) != -1
+    );
+    for (let musica of lista) {
+      this.preencherObjetoMusica(musica);
+    }
+    return lista;
+  }
+
+  listaMusicaGenero(genero){
+    let lista = [];
+    for (let musica of this.musicas){
+      if (musica.idGenero == genero.id){
+        lista.push(musica)
+      }
+    }
+    return lista;
+  }
+
+  musicasRelacionadas(musica){
+    let listaRelacionada = [];
+    if (musica.gostar >=1){
+      for (let m of this.musicas){
+        if (m != musica){
+          if (m.idGenero === musica.idGenero){
+            listaRelacionada.push(m)
+          }
+        }
+      }
+    }
+    else if (musica.naoGostar >=1){
+      for (let m of this.musicas){
+        if (m != musica){
+          if (m.idGenero != musica.idGenero){
+            listaRelacionada.push(m)
+          }
+        }
+      }
+    }
+    console.log(listaRelacionada)
+    return listaRelacionada
+  }
+
+  /*
+
+  ## Função para fazer a pesquisa, mas o include nao funcionou, verificar o pq ##
+
+  pesquisar(dado){
+    let listaPesquisa = [];
+    let generos = this.listaDeGeneros();
+    for (let m of this.musicas){
+      for (let a of m.artistas){
+        if (a.include(dado)) {
+          listaPesquisa.push(a)
+        }
+      }
+    }
+    for (let g of generos){
+      if (g.include(dado)){
+        listaPesquisa.push(g.nome)
+      }
+    }
+    
+    return listaPesquisa
+  }
+  */
 }

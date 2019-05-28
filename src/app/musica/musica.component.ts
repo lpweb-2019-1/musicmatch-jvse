@@ -9,13 +9,23 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MusicaComponent implements OnInit {
   musica = null;
-
+  listaRelacionada = null;
   constructor(private disco: DiscoService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.musica = this.disco.encontrarMusica(parseInt(id));
     this.disco.preencherObjetoMusica(this.musica);
+    
   }
 
+  gostar(){
+    this.disco.gostarMusica(this.musica);
+    this.listaRelacionada = this.disco.musicasRelacionadas(this.musica);
+  }
+
+  naoGostar(){
+    this.disco.naoGostarMusica(this.musica);
+    this.listaRelacionada = this.disco.musicasRelacionadas(this.musica);
+  }
 }

@@ -1,0 +1,16 @@
+<h1 class="mb-4 mt-5 border-bottom">Pesquisa</h1>
+<form #cadastro="ngForm">
+  <div class="row">
+    <div class="col-10 ">
+      <input type="text" id="pesquisa" name="pesquisa" [(ngModel)]="dados" class="form-control">
+    </div>
+    <div class="col">
+      <button (click)="pesquisa()" class="btn btn-outline-success">Pesquisar</button>
+    </div>
+  </div>
+  
+  <h5 class="mb-4 mt-5 border-bottom">Pesquisa Realizada</h5>
+  <li *ngFor="let pes of listaPesquisa">
+    {{ pes }}
+  </li>
+</form>

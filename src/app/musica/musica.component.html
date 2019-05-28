@@ -11,6 +11,26 @@
   <div>
     <i class="text-muted fas fa-tag"></i>
     &nbsp;
-    {{musica.genero.nome}}
+    <a [routerLink]="['/genero', musica.genero.id]">{{musica.genero.nome}}</a>
+  </div>
+  <br>
+  <div>
+    <button (click)="gostar()" class="btn btn-primary"><i class="fa fa-thumbs-up"></i></button>
+    {{musica.gostar}}
+    <button (click)="naoGostar()" class="btn btn-danger"><i class="fa fa-thumbs-down"></i></button>
+    {{musica.naoGostar}}
+  </div>
+  
+
+  <div>
+    <h1 class="mb-4 mt-5 border-bottom">Musicas Relacionadas</h1>
+    <li *ngFor="let musica of listaRelacionada">
+      <a [routerLink]="['/musicas', musica.id]">
+          <strong>{{ musica.titulo }} </strong> -
+          <span *ngFor="let artista of musica.artistas; last as ultimo">
+          {{ artista.nome }}<span *ngIf="!ultimo">, </span>
+          </span>
+      </a>
+    </li>
   </div>
 </section>

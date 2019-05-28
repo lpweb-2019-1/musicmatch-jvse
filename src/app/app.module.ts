@@ -7,6 +7,9 @@ import { HomeComponent } from './home/home.component';
 import { MusicaComponent } from './musica/musica.component';
 import { MusicasComponent } from './musicas/musicas.component';
 import { ArtistaComponent } from './artista/artista.component';
+import { GeneroComponent } from './genero/genero.component';
+import { PesquisaComponent } from './pesquisa/pesquisa.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,11 +17,14 @@ import { ArtistaComponent } from './artista/artista.component';
     HomeComponent,
     MusicaComponent,
     MusicasComponent,
-    ArtistaComponent
+    ArtistaComponent,
+    GeneroComponent,
+    PesquisaComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
